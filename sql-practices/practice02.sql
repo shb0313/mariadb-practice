@@ -8,13 +8,22 @@ select max(salary) as '최고임금', min(salary) as '최저임금', max(salary)
 -- 문제2.
 -- 마지막으로 신입사원이 들어온 날은 언제 입니까? 다음 형식으로 출력해주세요.
 -- 예) 2014년 07월 10일
-select max(date_format(hire_date, '%Y년 %m월 %d일')) as '최근 신입 고용일' from employees
+select max(date_format(hire_date, '%Y년 %m월 %d일')) as '고용일' from employees
 	order by hire_date desc;
     
 -- 문제3.
 -- 가장 오래 근속한 직원의 입사일은 언제인가요? 다음 형식으로 출력해주세요.
 -- 예) 2014년 07월 10일
-
+select date_format(hire_date, '%Y년 %m월 %d일') as '입사일' 
+	from employees A join dept_emp B on A.emp_no = B.emp_no
+	group by A.emp_no
+	having 
+    sum(
+      if(
+         B.to_date = '9999-01-01',cast(date_format(now(), '%Y%m%d') as int) - cast(date_format(B.from_date, '%Y%m%d') as int) ,
+			cast(date_format(B.to_date, '%Y%m%d') as int) - cast(date_format(B.from_date, '%Y%m%d') as int)
+         )
+      );
 
 -- 문제4.
 -- 현재, 이 회사의 평균 연봉은 얼마입니까?
@@ -28,6 +37,6 @@ select max(salary) as '최고연봉', min(salary) as '최저연봉' from salarie
 
 -- 문제6.
 -- 최고 어린 사원의 나이와 최 연장자의 나이는?
-select min(cast(date_format(now(), '%Y') as int) - cast(date_format(hire_date, '%Y') as int) + 1) as '최연소 사원',
-	max(cast(date_format(now(), '%Y') as int) - cast(date_format(hire_date, '%Y') as int) + 1) as '최고령 사원'
+select min(cast(date_format(now(), '%Y') as int) - cast(date_format(birth_date, '%Y') as int) + 1) as '최연소 사원',
+	max(cast(date_format(now(), '%Y') as int) - cast(date_format(birth_date, '%Y') as int) + 1) as '최고령 사원'
 	from employees;
