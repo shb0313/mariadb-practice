@@ -16,14 +16,8 @@ select max(date_format(hire_date, '%Y년 %m월 %d일')) as '고용일' from empl
 -- 예) 2014년 07월 10일
 select date_format(hire_date, '%Y년 %m월 %d일') as '입사일' 
 	from employees A join dept_emp B on A.emp_no = B.emp_no
-	group by A.emp_no
-	having 
-    sum(
-      if(
-         B.to_date = '9999-01-01',cast(date_format(now(), '%Y%m%d') as int) - cast(date_format(B.from_date, '%Y%m%d') as int) ,
-			cast(date_format(B.to_date, '%Y%m%d') as int) - cast(date_format(B.from_date, '%Y%m%d') as int)
-         )
-      );
+	group by A.emp_no;
+	-- having;
 
 -- 문제4.
 -- 현재, 이 회사의 평균 연봉은 얼마입니까?
