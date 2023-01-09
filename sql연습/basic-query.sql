@@ -26,16 +26,20 @@ show tables;
 
 -- insert: DML(C)
 insert
-  into pet
-values ('성탄이', '안대혁', 'dog', 'm', '2007-12-25', null);
+	into pet
+	values ('성탄이', '안대혁', 'dog', 'm', '2007-12-25', null);
 
 -- select: DML(R)
 select * from pet;
 
 -- update: DML(U)
 update pet
-   set name='성타니'
- where name = '성탄이'; 
+	set name='성타니'
+	where name = '성탄이'; 
+
+update pet
+	set death = null
+	where name != 'Bowser';
 
 -- delete: DML(D)
 delete from pet where name = '성타니';
@@ -45,6 +49,56 @@ load data local infile 'd:\pet.txt' into table pet;
 
 -- select
 select name, species
-  from pet
- where name = 'Bowser';
+	from pet
+	where name = 'Bowser';
+ 
+ select name, species
+	from pet
+	where birth >= '1998-01-01';
+ 
+ select name, species, gender
+	from pet
+	where species = 'dog'
+	and gender = 'f';
+ 
+ select name, species
+	from pet
+	where species = 'snake'
+	or species = 'bird';
+ 
+ select name, species
+	from pet
+	order by birth asc;
+ 
+ select name, species
+	from pet
+	order by birth desc;
+    
+select name, birth, death
+	from pet
+	where death is not null;
+        
+select name
+	from pet
+    where name like 'b%';
+    
+select name
+	from pet
+    where name like '%fy';
+    
+select name
+	from pet
+    where name like '%w%';
+
+select name
+	from pet
+    where name like '_____';
+ 
+select name
+	from pet
+    where name like 'b____';
+ 
+ select count(*)
+	from pet;
+    
 
