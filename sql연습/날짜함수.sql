@@ -23,7 +23,8 @@ select first_name,
        hire_date,
        period_diff(date_format(curdate(), '%y%m'), date_format(hire_date, '%y%m')) as month
   from employees
-order by month desc;
+  order by month desc;
+
 
 -- date_add(=adddate), date_sub(=subdate)
 -- 날짜를 date 타입의 컬럼이나 값에 type(year, month, day)의 표현식으로 더하거나 뺄 수 있다.

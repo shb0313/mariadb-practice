@@ -14,10 +14,14 @@ select max(date_format(hire_date, '%Y년 %m월 %d일')) as '고용일' from empl
 -- 문제3.
 -- 가장 오래 근속한 직원의 입사일은 언제인가요? 다음 형식으로 출력해주세요.
 -- 예) 2014년 07월 10일
-select date_format(hire_date, '%Y년 %m월 %d일') as '입사일' 
-	from employees A join dept_emp B on A.emp_no = B.emp_no
-	group by A.emp_no;
-	-- having;
+select date_format(a.hire_date, '%Y년 %m월 %d일') as '입사일' 
+	from employees a join dept_emp b on a.emp_no = b.emp_no;
+	-- group by a.emp_no
+    -- having if(
+	-- 	b.to_date = '9999-01-01',
+	-- 		cast(date_format(now(), '%Y%m%d') as int) - cast(a.hire_date as int),
+    --      max(cast(b.to_date as int) - cast(a.hire_date as int))
+    -- );
 
 -- 문제4.
 -- 현재, 이 회사의 평균 연봉은 얼마입니까?
