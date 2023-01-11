@@ -103,13 +103,14 @@ select a.title, max(b.avg_salary) as 평균급여
 -- 현재 자신의 매니저보다 높은 급여를 받고 있는 직원은?
 -- 부서이름, 사원이름, 연봉, 매니저 이름, 매니저 급여순으로 출력합니다.
 select d.dept_name, a.first_name, b.salary, d.manager_name, d.manager_salary
-	from employees a, salaries b, dept_emp c, (select b.dept_no, dept_name, a.first_name as manager_name, c.salary as manager_salary
-													from employees a, dept_manager b, salaries c, departments d
-													where a.emp_no = b.emp_no
-														and b.emp_no = c.emp_no
-														and b.dept_no = d.dept_no
-														and b.to_date = '9999-01-01'
-														and c.to_date = '9999-01-01') d
+	from employees a, salaries b, dept_emp c, 
+		(select b.dept_no, dept_name, a.first_name as manager_name, c.salary as manager_salary
+			from employees a, dept_manager b, salaries c, departments d
+			where a.emp_no = b.emp_no
+				and b.emp_no = c.emp_no
+				and b.dept_no = d.dept_no
+				and b.to_date = '9999-01-01'
+				and c.to_date = '9999-01-01') d
 	where a.emp_no = b.emp_no
 		and b.emp_no = c.emp_no
         and c.dept_no = d.dept_no
