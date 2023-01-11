@@ -21,7 +21,7 @@ public class SelectTest01 {
 			Class.forName("org.mariadb.jdbc.Driver");
 			
 			//2. 연결하기
-			String url = "jdbc:mariadb://192.168.10.125:3307/employees?charset=utf8";
+			String url = "jdbc:mariadb://192.168.10.115:3307/employees?charset=utf8";
 			conn = DriverManager.getConnection(url, "hr", "hr");
 			
 			//3. Statement 생성
