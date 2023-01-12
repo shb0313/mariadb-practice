@@ -31,11 +31,11 @@ select a.dept_no, c.first_name, d.salary
 -- 현재, 자신의 부서 평균 급여보다 급여 많은 사원의 사번, 이름과 급여를 조회하세요 
 select a.emp_no, a.first_name, b.salary
 	from employees a, salaries b, dept_emp c, (select a.dept_no, avg(b.salary) as avg_salary
-													from dept_emp a, salaries b
-													where a.emp_no = b.emp_no
-														and a.to_date = '9999-01-01'
-														and b.to_date = '9999-01-01'
-													group by a.dept_no) d
+												from dept_emp a, salaries b
+												where a.emp_no = b.emp_no
+													and a.to_date = '9999-01-01'
+													and b.to_date = '9999-01-01'
+												group by a.dept_no) d
 	where a.emp_no = b.emp_no
 		and b.emp_no = c.emp_no
         and c.dept_no = d.dept_no
@@ -59,11 +59,11 @@ select a.emp_no, a.first_name, c.manager_name, c.dept_name
 -- 현재, 평균연봉이 가장 높은 부서의 사원들의 사번, 이름, 직책, 급여를 조회하고 급여순으로 출력하세요.
 select a.emp_no, a.first_name, b.title, c.salary
 	from employees a, titles b, salaries c, dept_emp d, (select a.dept_no, avg(b.salary) as avg_salary
-																	from dept_emp a, salaries b
-																	where a.emp_no = b.emp_no
-																		and a.to_date = '9999-01-01'
-																		and b.to_date = '9999-01-01'
-																	group by dept_no) e
+															from dept_emp a, salaries b
+															where a.emp_no = b.emp_no
+																and a.to_date = '9999-01-01'
+																and b.to_date = '9999-01-01'
+															group by dept_no) e
     where a.emp_no = b.emp_no
 		and b.emp_no = c.emp_no
 		and c.emp_no = d.emp_no
@@ -93,60 +93,29 @@ select a.dept_name, b.avg_salary as 평균급여
 	where a.dept_no = b.dept_no
 		and b.avg_salary = (select max(avg_salary)
 								from(select avg(b.salary) as avg_salary
-							from dept_emp a, salaries b
-							where a.emp_no = b.emp_no
-								and a.to_date = '9999-01-01'
-								and b.to_date = '9999-01-01'
-							group by dept_no) b);
+										from dept_emp a, salaries b
+										where a.emp_no = b.emp_no
+											and a.to_date = '9999-01-01'
+											and b.to_date = '9999-01-01'
+										group by dept_no) b);
     
 -- 문제7.
 -- 평균 급여가 가장 높은 직책?
 -- 직책, 평균급여 
 
 select a.title, avg(b.salary) as avg_salary
-from titles a, salaries b
-where a.emp_no = b.emp_no
-	and a.to_date = '9999-01-01'
-	and b.to_date = '9999-01-01'
-group by title
-having avg_salary = (
-						select max(b.avg_salary)
-						from(
-								select avg(b.salary) as avg_salary
-								from titles a, salaries b
-								where a.emp_no = b.emp_no
-									and a.to_date = '9999-01-01'
-									and b.to_date = '9999-01-01'
-								group by title
-							) b
-					);
-
-
--- 제일 높은 급여 뽑음                            
-select max(b.avg_salary)
-	from(select avg(b.salary) as avg_salary
-			from titles a, salaries b
-			where a.emp_no = b.emp_no
-				and a.to_date = '9999-01-01'
-				and b.to_date = '9999-01-01'
-			group by title) b;                            
-
--- 직책별 평균 급여
-select a.title
-from titles a, salaries b
+	from titles a, salaries b
 	where a.emp_no = b.emp_no
-	and a.to_date = '9999-01-01'
-	and b.to_date = '9999-01-01'
-group by title
-having avg(b.salary) = (
-						select max(b.avg_salary)
-	from(select avg(b.salary) as avg_salary
-			from titles a, salaries b
-			where a.emp_no = b.emp_no
-				and a.to_date = '9999-01-01'
-				and b.to_date = '9999-01-01'
-			group by title) b);
-
+		and a.to_date = '9999-01-01'
+		and b.to_date = '9999-01-01'
+	group by title
+	having avg_salary = (select max(b.avg_salary)
+							from(select avg(b.salary) as avg_salary
+									from titles a, salaries b
+									where a.emp_no = b.emp_no
+										and a.to_date = '9999-01-01'
+										and b.to_date = '9999-01-01'
+									group by title) b);
 
 -- 문제8.
 -- 현재 자신의 매니저보다 높은 급여를 받고 있는 직원은?
